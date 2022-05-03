@@ -20,7 +20,7 @@ param(
     [Parameter(Mandatory = $true)]
     [string] $Subscription,
 
-	[Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $true)]
     [string] $SourceVM,
 
     [Parameter(Mandatory = $true)]
@@ -32,7 +32,7 @@ param(
     [Parameter(Mandatory = $true)]
     [string] $TargetRegionCode,
 
-	[Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $true)]
 	[string] $TargetLocation
 )
 
