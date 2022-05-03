@@ -33,7 +33,7 @@ param(
     [string] $TargetRegionCode,
 
     [Parameter(Mandatory = $true)]
-	[string] $TargetLocation
+    [string] $TargetLocation
 )
 
 Set-AzContext -Subscription $Subscription
