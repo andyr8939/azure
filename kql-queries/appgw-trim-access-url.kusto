@@ -1,0 +1,9 @@
+// Get all URLs with errorcode, but trim URL so you only get the first level
+// eg /cdn/site1/movie1/image.jpg is trimmed to cdn
+// This allows better grouping of errros
+AzureDiagnostics
+| where ResourceType == "APPLICATIONGATEWAYS" and OperationName == "ApplicationGatewayAccess" and httpStatus_d > 302
+| project TimeGenerated, URL=tostring(split(requestUri_s, "/")[1]), requestUri_s, host_s, httpStatus_d, serverStatus_s
+| summarize AggregatedValue = count() by URL, httpStatus_d, bin(TimeGenerated, 1h)
+| sort by AggregatedValue desc
+| render barchart 

@@ -1,0 +1,8 @@
+// AppGW Bot Protection
+// This uses a custom URL filter to shrink the URL to easily match and also
+// rouding time to the nearest 15 minutes to better pivot
+AzureDiagnostics
+| where ResourceProvider == "MICROSOFT.NETWORK" and Category == "ApplicationGatewayFirewallLog"
+| where ruleSetType_s contains "MicrosoftBotProtection"
+| extend shortURL = substring(requestUri_s, 0, 30)
+| project bin(TimeGenerated, 15m), Category, Resource, ruleSetType_s, action_s, hostname_s, shortURL, Message, clientIp_s, SourceSystem, engine_s

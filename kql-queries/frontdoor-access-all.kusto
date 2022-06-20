@@ -1,0 +1,4 @@
+// Front Door Access Logs
+AzureDiagnostics 
+| where OperationName == "Microsoft.Cdn/Profiles/AccessLog/Write" and Category == "FrontDoorAccessLog" 
+| project TimeGenerated, Category, Resource, requestUri_s, httpStatusCode_d, httpMethod_s, clientIp_s, ErrorInfo_s, cacheStatus_s, originUrl_s

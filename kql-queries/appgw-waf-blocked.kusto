@@ -1,0 +1,5 @@
+// Block AppGW Requests
+AzureDiagnostics
+| where ResourceProvider == "MICROSOFT.NETWORK" and Category == "ApplicationGatewayFirewallLog"
+| where action_s contains "Blocked"
+| project TimeGenerated, Category, Resource, transactionId_g, action_s, ruleSetType_s, ruleSetVersion_s, ruleId_s ,requestUri_s, hostname_s , clientIp_s,Message, details_message_s

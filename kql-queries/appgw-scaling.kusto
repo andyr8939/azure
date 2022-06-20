@@ -1,0 +1,4 @@
+// AppGW Count of Scaling
+AzureDiagnostics
+| summarize dcount(instanceId_s) by bin(TimeGenerated, 30m)
+| sort by TimeGenerated

@@ -1,0 +1,4 @@
+// 500 to 599 Errors on Application Gateway Access Logs
+AzureDiagnostics
+| where ResourceType == "APPLICATIONGATEWAYS" and OperationName == "ApplicationGatewayAccess" and httpStatus_d between (500 .. 599)
+| project TimeGenerated, Category, Resource, httpStatus_d, requestUri_s, host_s, ruleName_s, clientIP_s, httpMethod_s, userAgent_s

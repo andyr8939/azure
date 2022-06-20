@@ -1,0 +1,11 @@
+// Front Door WAF Blocks
+AzureDiagnostics 
+| where OperationName == "Microsoft.Cdn/Profiles/WebApplicationFirewallLog/Write" and Category == "FrontDoorWebApplicationFirewallLog" 
+| where action_s contains "block"
+| project TimeGenerated, Category, Resource, requestUri_s, ruleName_s, policy_s, policyMode_s, action_s, details_matches_s, trackingReference_s
+
+// Front Door WAF Blocks with Matching TrackingReference
+AzureDiagnostics 
+| where OperationName == "Microsoft.Cdn/Profiles/WebApplicationFirewallLog/Write" and Category == "FrontDoorWebApplicationFirewallLog" 
+| where trackingReference_s contains "changeme"
+| project TimeGenerated, Category, Resource, requestUri_s, ruleName_s, policy_s, policyMode_s, action_s, details_matches_s, trackingReference_s

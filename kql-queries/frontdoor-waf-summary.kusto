@@ -1,0 +1,4 @@
+// Front Door WAF Hits
+AzureDiagnostics 
+| where OperationName == "Microsoft.Cdn/Profiles/WebApplicationFirewallLog/Write" and Category == "FrontDoorWebApplicationFirewallLog" 
+| project TimeGenerated, Category, Resource, requestUri_s, ruleName_s, policy_s, policyMode_s, action_s, details_matches_s, trackingReference_s

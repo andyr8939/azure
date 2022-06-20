@@ -1,0 +1,36 @@
+// Front Door Access Logs
+AzureDiagnostics 
+| where OperationName == "Microsoft.Cdn/Profiles/AccessLog/Write" and Category == "FrontDoorAccessLog" 
+| project TimeGenerated, Category, Resource, requestUri_s, httpStatusCode_d, httpMethod_s, clientIp_s, ErrorInfo_s, cacheStatus_s, originUrl_s
+
+
+// Front Door WAF Hits
+AzureDiagnostics 
+| where OperationName == "Microsoft.Cdn/Profiles/WebApplicationFirewallLog/Write" and Category == "FrontDoorWebApplicationFirewallLog" 
+| project TimeGenerated, Category, Resource, requestUri_s, ruleName_s, policy_s, policyMode_s, action_s, details_matches_s, trackingReference_s
+
+// 500 to 599 Errors on Front Door Access Logs
+AzureDiagnostics 
+| where OperationName == "Microsoft.Cdn/Profiles/AccessLog/Write" and Category == "FrontDoorAccessLog"
+| where requestUri_s contains "510lab"
+| where httpStatusCode_d between (500 .. 599)
+| project TimeGenerated, Category, Resource, requestUri_s, httpStatusCode_d, httpMethod_s, clientIp_s, ErrorInfo_s, cacheStatus_s, originUrl_s
+
+// 303 to 499 Errors on Front Door Access Logs
+AzureDiagnostics 
+| where OperationName == "Microsoft.Cdn/Profiles/AccessLog/Write" and Category == "FrontDoorAccessLog"
+| where requestUri_s contains "510lab"
+| where httpStatusCode_d between (303 .. 499)
+| project TimeGenerated, Category, Resource, requestUri_s, httpStatusCode_d, httpMethod_s, clientIp_s, ErrorInfo_s, cacheStatus_s, originUrl_s
+
+// Front Door WAF Blocks
+AzureDiagnostics 
+| where OperationName == "Microsoft.Cdn/Profiles/WebApplicationFirewallLog/Write" and Category == "FrontDoorWebApplicationFirewallLog" 
+| where action_s contains "block"
+| project TimeGenerated, Category, Resource, requestUri_s, ruleName_s, policy_s, policyMode_s, action_s, details_matches_s, trackingReference_s
+
+// Front Door WAF Blocks with Matching TrackingReference
+AzureDiagnostics 
+| where OperationName == "Microsoft.Cdn/Profiles/WebApplicationFirewallLog/Write" and Category == "FrontDoorWebApplicationFirewallLog" 
+| where trackingReference_s contains ""
+| project TimeGenerated, Category, Resource, requestUri_s, ruleName_s, policy_s, policyMode_s, action_s, details_matches_s, trackingReference_s
